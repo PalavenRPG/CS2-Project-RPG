@@ -6,7 +6,10 @@ public class PlayerController : MonoBehaviour {
 
 	//default moving speed set to 5
 	public float movementSpeed;
-
+	private float currentMoveSpeed;
+	public float diagonalMoveModifier;
+	//diagonalMoveModifier is ~3/4.
+	
 	//Accessing animator
 	private Animator anim;
 	//fixes bouncing when colllision happens
@@ -51,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 			//Move Right and Left
 			if (Input.GetAxisRaw ("Horizontal") > 0.5f || Input.GetAxisRaw ("Horizontal") < -0.5f) {
 				//transform.Translate (new Vector3 (Input.GetAxisRaw ("Horizontal") * movementSpeed * Time.deltaTime, 0f, 0f));
-				playerRB.velocity = new Vector2 (Input.GetAxisRaw ("Horizontal") * movementSpeed, playerRB.velocity.y);
+				playerRB.velocity = new Vector2 (Input.GetAxisRaw ("Horizontal") * currentMoveSpeed, playerRB.velocity.y);
 				playerMoving = true;
 				lastMove = new Vector2 (Input.GetAxisRaw ("Horizontal"), 0f);
 			}
@@ -59,7 +62,7 @@ public class PlayerController : MonoBehaviour {
 			//Move Up and Down
 			if (Input.GetAxisRaw ("Vertical") > 0.5f || Input.GetAxisRaw ("Vertical") < -0.5f) {
 				//transform.Translate (new Vector3 (0f, Input.GetAxisRaw ("Vertical") * movementSpeed * Time.deltaTime, 0f));
-				playerRB.velocity = new Vector2 (playerRB.velocity.x, Input.GetAxisRaw ("Vertical") * movementSpeed);
+				playerRB.velocity = new Vector2 (playerRB.velocity.x, Input.GetAxisRaw ("Vertical") * currentMoveSpeed);
 				playerMoving = true;
 				lastMove = new Vector2 (0f, Input.GetAxisRaw ("Vertical"));
 			}
@@ -77,6 +80,9 @@ public class PlayerController : MonoBehaviour {
 				playerRB.velocity = Vector2.zero;
 				anim.SetBool ("PlayerAttack", true);
 			}
+			if(Mathf.abs(Input.GetAxisRaw("Horizontal") > 0.5f && Mathf.abs(Input.GetAxisRaw("Vertical") > 0.5f){
+				currentMoveSpeed = moveSpeed * diagonalMoveModifier;
+			} else {currentMoveSpeed = moveSpeed;}
 		}
 			if (attackTimeCounter > 0) {
 		
